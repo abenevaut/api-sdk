@@ -1,0 +1,42 @@
+{
+    "name": "abenevaut/api-sdk",
+    "type": "library",
+    "description": "api.benevaut.fr API SDK",
+    "keywords": [
+        "laravel",
+        "benevaut",
+        "api",
+        "sdk"
+    ],
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Antoine Benevaut",
+            "email": "antoine@benevaut.fr"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/http": "^9.27"
+    },
+    "autoload": {
+        "psr-4": {
+            "abenevaut\\ApiSdk\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit",
+            "vendor/bin/phpcs --standard=PSR12 ./src/Exceptions"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "^1.5"
+    }
+}
