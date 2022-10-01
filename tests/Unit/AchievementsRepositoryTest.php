@@ -24,14 +24,14 @@ class AchievementsRepositoryTest extends TestCase
     public function testAll()
     {
         Http::fake([
-            'https://api.benevaut.test/achievements' => Http::response(['foo' => 'bar']),
+            'https://api.benevaut.test/achievements' => Http::response(['data' => 'bar']),
         ]);
 
         $instance = new AchievementsRepository('https://api.benevaut.test', true);
 
         $collection = $instance->all();
 
-        $this->assertArrayHasKey('foo', $collection->toArray());
-        $this->assertSame('bar', $collection->toArray()['foo']);
+        $this->assertArrayHasKey('data', $collection->toArray());
+        $this->assertSame('bar', $collection->toArray()['data']);
     }
 }
