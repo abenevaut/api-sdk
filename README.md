@@ -1,9 +1,9 @@
-# Asana API SDK
+# api.benevaut.fr API SDK
 
 ```
-composer require abenevaut/laravel-asana
+composer require abenevaut/api-sdk
 ```
 
 ```
-php artisan vendor:publish --provider="abenevaut\Asana\Providers\AsanaServiceProvider" --tag=asana
+php artisan vendor:publish --provider="abenevaut\ApiSdk\Providers\ApiServiceProvider" --tag=abenevaut
 ```

@@ -23,8 +23,9 @@ class ApiDriverFactory
     {
         return $this
             ->app
-            ->make('\\abenevaut\\ApiSdk\\Repositories\\' . $driver->value . 'Repository', [
-                'debug' => config('app.debug'),
+            ->make('\\abenevaut\\ApiSdk\\Repositories\\'.$driver->value.'Repository', [
+                'baseUrl' => $this->app->config('abenevaut.endpoint'),
+                'debug' => $this->app->config('app.debug'),
             ]);
     }
 }

@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Http;
 
 abstract class ApiRepositoryAbstract
 {
-    /**
-     * @var string
-     */
-    private string $baseUrl = 'https://api.benevaut.fr/api/v1';
+    public function __construct(private readonly string $baseUrl, private readonly bool $debug)
+    {
+    }
 
     /**
      * @param  string  $uri
@@ -24,11 +23,15 @@ abstract class ApiRepositoryAbstract
     /**
      * @return PendingRequest
      */
-    protected function request(): PendingRequest
+    protected function request(bool $withToken = false, array $requestHeaders = []): PendingRequest
     {
-        return $this
-            ->withHeaders()
-            ->retry(3, 100);
+        $pendingRequest = $this->withHeaders($withToken, $requestHeaders);
+
+        if ($this->debug) {
+            $pendingRequest->withoutVerifying();
+        }
+
+        return $pendingRequest->retry(3, 100);
     }
 
     /**
