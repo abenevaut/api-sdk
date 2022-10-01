@@ -45,7 +45,7 @@ abstract class ApiRepositoryAbstract
         $pendingRequest = Http::withHeaders(array_merge($defaultHeaders, $requestHeaders));
 
         if ($withToken) {
-            $pendingRequest->withToken(config('asana.access_token'));
+            $pendingRequest->withToken(config('abenevaut.access_token'));
         }
 
         return $pendingRequest;
