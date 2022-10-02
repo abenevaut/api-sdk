@@ -2,9 +2,11 @@
 
 namespace abenevaut\ApiSdk\Providers;
 
+use abenevaut\ApiSdk\Contracts\ApiEntitiesEnum;
 use abenevaut\ApiSdk\Contracts\ApiProviderNameInterface;
 use abenevaut\ApiSdk\Factories\ApiDriverFactory;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
 class ApiServiceProvider extends ServiceProvider implements ApiProviderNameInterface
@@ -26,6 +28,12 @@ class ApiServiceProvider extends ServiceProvider implements ApiProviderNameInter
         $this->publishes([
             __DIR__.'/../../config/abenevaut.php',
         ], self::ABENEVAUT);
+
+        Collection::macro('toApiEntity', function (ApiEntitiesEnum $driver) {
+            return $this->map(function ($value) use ($driver) {
+                return new ("abenevaut\\ApiSdk\\Entities\\{$driver->value}Entity")($value);
+            });
+        });
     }
 
     /**

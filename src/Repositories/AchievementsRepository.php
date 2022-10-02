@@ -2,19 +2,32 @@
 
 namespace abenevaut\ApiSdk\Repositories;
 
+use abenevaut\ApiSdk\Contracts\ApiEntitiesEnum;
 use abenevaut\ApiSdk\Contracts\ApiRepositoryAbstract;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 
 final class AchievementsRepository extends ApiRepositoryAbstract
 {
     /**
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function all(): Collection
+    public function all(): LengthAwarePaginator
     {
-        return $this
+        $response = $this
             ->request()
             ->get($this->makeUrl("/achievements"))
-            ->collect();
+            ->json();
+
+        $resources = Collection::make($response['data'])
+            ->toApiEntity(ApiEntitiesEnum::ACHIEVEMENT);
+
+        return new LengthAwarePaginator(
+            $resources,
+            $resources->count(),
+            $response['pagination']['per_page'],
+            $response['pagination']['current_page']
+        );
     }
 }

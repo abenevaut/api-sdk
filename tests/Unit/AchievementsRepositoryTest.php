@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use abenevaut\ApiSdk\Providers\ApiServiceProvider;
 use abenevaut\ApiSdk\Repositories\AchievementsRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Facade;
@@ -18,6 +19,8 @@ class AchievementsRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->app = new Application();
+        $this->app->register(ApiServiceProvider::class);
+        $this->app->boot();
         Facade::setFacadeApplication($this->app);
     }
 
@@ -25,9 +28,26 @@ class AchievementsRepositoryTest extends TestCase
     {
         Http::fake([
             'https://api.benevaut.test/achievements' => Http::response([
-                "data" => [],
+                "data" => [
+                    [
+                        'uniqid' => '1',
+                        'status' => 'ACHIEVEMENTS',
+                        'name' => 'Test 1',
+                        'images' => '',
+                        'url' => '',
+                        'created_at' => '',
+                    ],
+                    [
+                        'uniqid' => '2',
+                        'status' => 'ACHIEVEMENTS',
+                        'name' => 'Test 2',
+                        'images' => '',
+                        'url' => '',
+                        'created_at' => '',
+                    ],
+                ],
                 "pagination" => [
-                    "total" => 0,
+                    "total" => 2,
                     "per_page" => 12,
                     "current_page" => 1,
                     "previous_page_url" => null,
@@ -37,11 +57,13 @@ class AchievementsRepositoryTest extends TestCase
         ]);
 
         $instance = new AchievementsRepository('https://api.benevaut.test', true);
+        $resources = $instance->all();
 
-        $collection = $instance->all();
-
-        $this->assertArrayHasKey('data', $collection->toArray());
-        $this->assertEmpty($collection->toArray()['data']);
-        $this->assertNotEmpty($collection->toArray()['pagination']);
+        $this->assertNotEmpty($resources->getCollection());
+        $this->assertSame(2, $resources->total());
+        $this->assertSame(12, $resources->perPage());
+        $this->assertSame(1, $resources->currentPage());
+        $this->assertSame(null, $resources->previousPageUrl());
+        $this->assertSame(null, $resources->nextPageUrl());
     }
 }
