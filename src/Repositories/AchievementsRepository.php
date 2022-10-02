@@ -6,7 +6,6 @@ use abenevaut\ApiSdk\Contracts\ApiEntitiesEnum;
 use abenevaut\ApiSdk\Contracts\ApiRepositoryAbstract;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
 final class AchievementsRepository extends ApiRepositoryAbstract
 {
