@@ -24,7 +24,16 @@ class AchievementsRepositoryTest extends TestCase
     public function testAll()
     {
         Http::fake([
-            'https://api.benevaut.test/achievements' => Http::response(['data' => 'bar']),
+            'https://api.benevaut.test/achievements' => Http::response([
+                "data" => [],
+                "pagination" => [
+                    "total" => 0,
+                    "per_page" => 12,
+                    "current_page" => 1,
+                    "previous_page_url" => null,
+                    "next_page_url" => null
+                ]
+            ]),
         ]);
 
         $instance = new AchievementsRepository('https://api.benevaut.test', true);
@@ -32,6 +41,7 @@ class AchievementsRepositoryTest extends TestCase
         $collection = $instance->all();
 
         $this->assertArrayHasKey('data', $collection->toArray());
-        $this->assertSame('bar', $collection->toArray()['data']);
+        $this->assertEmpty($collection->toArray()['data']);
+        $this->assertNotEmpty($collection->toArray()['pagination']);
     }
 }
