@@ -27,7 +27,7 @@ class AchievementsRepositoryTest extends TestCase
     public function testAll()
     {
         Http::fake([
-            'https://api.benevaut.test/achievements' => Http::response([
+            'https://api.abenevaut.test/achievements' => Http::response([
                 "data" => [
                     [
                         'uniqid' => '1',
@@ -56,7 +56,7 @@ class AchievementsRepositoryTest extends TestCase
             ]),
         ]);
 
-        $instance = new AchievementsRepository('https://api.benevaut.test', true);
+        $instance = new AchievementsRepository('https://api.abenevaut.test', true);
         $resources = $instance->all();
 
         $this->assertNotEmpty($resources->getCollection());

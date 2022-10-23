@@ -25,7 +25,7 @@ class ApiDriverFactoryTest extends TestCase
             ->shouldReceive('get')
             ->once()
             ->with('abenevaut.endpoint')
-            ->andReturns('https://api.benevaut.test');
+            ->andReturns('https://api.abenevaut.test');
         $this
             ->app['config']
             ->shouldReceive('get')
